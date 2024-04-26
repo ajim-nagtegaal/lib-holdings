@@ -70,3 +70,20 @@ Note:
 
 The *start* option is handy when the program is interrupted or exits with an error.
 In that case, you can re-run the program, providing the start value shown.
+
+
+## Changes
+
+### In `__main__.py`
+
+Regels 45-47: skip `transform_records` and merge
+
+Lines 68:  function transform_records() is no longer used.
+
+ 
+
+### In `api.py`
+
+Line 11: removed ‘WMS_COLLECTION_MANAGEMENT’ scope.
+
+Line 43: function `extract_record_type()` is no longer used

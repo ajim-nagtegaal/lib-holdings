@@ -10,3 +10,9 @@
 /lib_holdings/__pycache__/
 test.pypi.token.txt
 pypi.token.txt
+/lh-venv/
+ocn.txt
+symbol.txt
+Pipfile
+.vscode/
+output/

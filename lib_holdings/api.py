@@ -1,14 +1,13 @@
+from oauthlib.oauth2 import BackendApplicationClient, TokenExpiredError
 from requests.auth import HTTPBasicAuth
 from requests_oauthlib import OAuth2Session
-from oauthlib.oauth2 import BackendApplicationClient, TokenExpiredError
 
 
 class ApiSession:
     """Creates an OCLC Api session and provides methods to request holdings data."""
 
     def __init__(self, oclc_key, oclc_secret):
-        client = BackendApplicationClient(client_id=oclc_key,
-                                          scope=['wcapi', 'WMS_COLLECTION_MANAGEMENT'])
+        client = BackendApplicationClient(client_id=oclc_key, scope=["wcapi"])
         self.session = OAuth2Session(client=client)
         self.auth = HTTPBasicAuth(oclc_key, oclc_secret)
         self.token = self.get_token()
@@ -18,8 +17,8 @@ class ApiSession:
 
     def get_token(self):
         return self.session.fetch_token(
-            token_url='https://authn.sd00.worldcat.org/oauth2/accessToken',
-            auth=self.auth
+            token_url="https://authn.sd00.worldcat.org/oauth2/accessToken",
+            auth=self.auth,
         )
 
     def extract_holdings(self, ocns: list, symbols: list):
@@ -32,8 +31,8 @@ class ApiSession:
         holdings_data = []
         for ocn in ocns:
             url = (
-                f'https://americas.discovery.api.oclc.org/worldcat/search/v2/bibs-detailed-holdings?'
-                f'oclcNumber={ocn}&'
+                f"https://americas.discovery.api.oclc.org/worldcat/search/v2/bibs-detailed-holdings?"
+                f"oclcNumber={ocn}&"
                 f'heldBySymbol={",".join(symbols)}'
             )
             r = self.do_request(url)
@@ -48,13 +47,10 @@ class ApiSession:
         """
         records = {}
         for ocn in ocns:
-            url = (
-                f'https://circ.sd00.worldcat.org/LHR?'
-                f'q=oclc%3A{ocn}'
-            )
+            url = f"https://circ.sd00.worldcat.org/LHR?" f"q=oclc%3A{ocn}"
             r = self.do_request(url)
             data = r.json()
-            records[ocn] = data['entry']
+            records[ocn] = data["entry"]
         return records
 
     def do_request(self, url):
@@ -63,18 +59,24 @@ class ApiSession:
         r = None
         while not success and retry < 3:
             try:
-                r = self.session.get(url,
-                                     headers={'Accept': 'application/json',
-                                              'Content': 'application/json',
-                                              'Authorization': self.token})
+                r = self.session.get(
+                    url,
+                    headers={
+                        "Accept": "application/json",
+                        "Content": "application/json",
+                        "Authorization": self.token,
+                    },
+                )
             except TokenExpiredError:
                 pass
             if r and r.status_code == 200:
                 success = True
             else:
+                print("Request to %s: returned: %s" % (url, str(r.status_code)))
                 self.refresh_token()  # try with fresh token
                 retry += 1
-                print('retrying')
+                print("Retrying %i" % (retry))
         if not success:
-            raise Exception('API failure')
+            # @TODO return more specific error message.
+            raise Exception("API returned %s" % (str(r.status_code)))
         return r
