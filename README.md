@@ -1,8 +1,12 @@
 # lib-holdings
 
+Based on the https://pypi.org/project/lib-holdings/ Copyright (c) 2024 Max Paulus
+
 Command Line Interface (CLI) tool for retrieving holding counts for a list of OCNs and institutes.
+
 Uses the OCLC API: https://developer.api.oclc.org/
 
+Simplied version which only uses the "wcapi"-scope
 ## Installation
 
 First of all, you will need to have Python installed on your computer and available on the command line.
