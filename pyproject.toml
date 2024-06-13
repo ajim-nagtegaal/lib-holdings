@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "lib-holdings-simplified"
-version = "1.0.0"
+version = "1.0.1"
 description = "CLI tool for retrieving holding counts for a list of OCNs and libraries, simplified version"
-authors = ["Max Paulus"]
+authors = ["Max Paulus", "Louis Nagtegaal"]
 readme = "README.md"
 repository = "https://github.com/ajim-nagtegaal/lib-holdings"
 license = "MIT"

@@ -5,7 +5,7 @@ import traceback
 import click
 import pandas as pd
 
-from lib_holdings.api import ApiSession
+from lib_holdings_simplified.api import ApiSession
 
 
 @click.command()
