@@ -7,6 +7,7 @@ Command Line Interface (CLI) tool for retrieving holding counts for a list of OC
 Uses the OCLC API: https://developer.api.oclc.org/
 
 Simplied version which only uses the "wcapi"-scope
+
 ## Installation
 
 First of all, you will need to have Python installed on your computer and available on the command line.
@@ -77,6 +78,14 @@ In that case, you can re-run the program, providing the start value shown.
 
 
 ## Changes
+
+To make a new versions of the package and deploy it to 
+
+https://pypi.org/project/lib-holdings-simplified/ 
+
+see:
+
+https://packaging.python.org/en/latest/tutorials/packaging-projects/
 
 ### In `__main__.py`
 

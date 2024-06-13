@@ -33,7 +33,17 @@ def main(**kwargs):
         .iloc[:, 0]
         .unique()
     )
-    session = ApiSession(kwargs.get("key"), kwargs.get("secret"))
+    scopes = [
+        "wcapi:change_password",
+        "wcapi:view_retained_holdings",
+        "wcapi:view_summary_holdings",
+        "wcapi:view_holdings",
+        "wcapi:view_bib",
+        "wcapi:view_my_holdings",
+        "wcapi:view_brief_bib",
+        "wcapi:view_institution_holdings",
+    ]
+    session = ApiSession(kwargs.get("key"), kwargs.get("secret"), scopes)
     # break up into smaller batches
     n = 100
     error = False
