@@ -10,6 +10,9 @@ from lib_holdings_simplified.api import ApiSession
 
 @click.command()
 @click.option("--start", default=0, type=int, help="Position of OCN to start with.")
+@click.option(
+    "--details", default=True, type=bool, help="Use the url to get detailed info."
+)
 @click.argument("infile_ocns", required=True, type=click.Path(exists=True))
 @click.argument("infile_symb", required=True, type=click.Path(exists=True))
 @click.argument("out_folder", required=True)
@@ -33,6 +36,7 @@ def main(**kwargs):
         .iloc[:, 0]
         .unique()
     )
+    details = kwargs.get("details")
     scopes = [
         "wcapi:change_password",
         "wcapi:view_retained_holdings",
@@ -54,7 +58,9 @@ def main(**kwargs):
         try:
             click.echo(f"fetch data for batch {i}-{i+n}")
             ocns_sub = ocns[i : i + n]
-            holdings = transform_holdings(session.extract_holdings(ocns_sub, symbols))
+            holdings = transform_holdings(
+                session.extract_holdings(ocns_sub, symbols, details=details)
+            )
             print("holdings extracted")
             # record_types = transform_records(session.extract_record_type(ocns_sub))
             # print('record types extracted')

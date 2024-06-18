@@ -11,14 +11,15 @@ Simplied version which only uses the "wcapi"-scope
 ## Installation
 
 First of all, you will need to have Python installed on your computer and available on the command line.
-If this sounds scary, consider installing the [Anaconda Navigator](https://www.anaconda.com/anaconda-navigator), an application that comes with Python and a command line.
+If this sounds scary, consider installing the [Anaconda Navigator](https://www.anaconda.com/anaconda-navigator), 
+an application that comes with Python and a command line.
 
 Once installed, find and run the *Anaconda Prompt* which is the command line interface.
 
 Again, knowing the command line is not a requirement. Simply copy the following into the window and press enter:
 
 ```bash
-pip install lib-holdings
+pip install --upgrade lib-holdings-simplified 
 ```
 
 After the tool has been installed, continue below to learn how it works.
@@ -69,6 +70,7 @@ OPTIONS:
 --start INTEGER  Position of OCN to start with.
 --key TEXT       OCLC API key.
 --secret TEXT    OCLC API secret.
+--details BOOL   Use the detaild search or not (default =  True)
 ```
 
 Note:
@@ -76,6 +78,9 @@ Note:
 The *start* option is handy when the program is interrupted or exits with an error.
 In that case, you can re-run the program, providing the start value shown.
 
+The *details* option determines which of the URLs is used:
++ True =  https://americas.discovery.api.oclc.org/worldcat/search/v2/bibs-detailed-holdings
++ False = https://americas.discovery.api.oclc.org/worldcat/search/v2/bibs-holdings
 
 ## Changes
 
@@ -88,6 +93,27 @@ see:
 https://packaging.python.org/en/latest/tutorials/packaging-projects/
 
 
+Short step-by-step instructions
+
++ Apply any changes and test locally
++ Remove previous package builds from the `/dist`-folder
++ Get the build-package: `python3 -m pip install --upgrade build`
++ Edit `pyproject.toml` and change the name to 'lib-holdings-simplified-test' and the version.
++ Build the distribution: `python3 -m build`
++ Check created distributions in the 'dist'-folder for the correct version number
++ Get the twine-package: `python3 -m pip install --upgrade twine`
++ Upload to test repository: `python3 -m twine upload --repository testpypi dist/*`
++ Test in test-application with `python3 -m pip install --upgrade --index-url https://test.pypi.org/simple/ --no-deps lib-holdings-simplified`
++ If all ok:
+    + Remove test builds from the `/dist`-folder
+    + Change back name and set correct version in `pyproject.toml`
+    + Create finale distribution with `python3 -m build`
+    + Upload to real repository:  `python3 -m twine upload dist/*`
+
+
+# Changelog
+
+## V 1.0.1
 
 ### In `__main__.py`
 
@@ -99,6 +125,16 @@ Lines 68:  function transform_records() is no longer used.
 
 ### In `api.py`
 
+Line 43: function `extract_record_type()` is no longer used
+
+## V 1.1.0 
+
+### In `api.py`
+
+Line 9: Add `scope` as extra parameter to __init__ function.
+
 Line 11: removed ‘WMS_COLLECTION_MANAGEMENT’ scope.
 
-Line 43: function `extract_record_type()` is no longer used
+## V 1.2.0
+
+Added '--details'-option 
