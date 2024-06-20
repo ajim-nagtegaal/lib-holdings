@@ -70,7 +70,7 @@ OPTIONS:
 --start INTEGER  Position of OCN to start with.
 --key TEXT       OCLC API key.
 --secret TEXT    OCLC API secret.
---details BOOL   Use the detaild search or not (default =  True)
+--details BOOL   Use the detaild search or not (default =  True).
 ```
 
 Note:
@@ -81,6 +81,8 @@ In that case, you can re-run the program, providing the start value shown.
 The *details* option determines which of the URLs is used:
 + True =  https://americas.discovery.api.oclc.org/worldcat/search/v2/bibs-detailed-holdings
 + False = https://americas.discovery.api.oclc.org/worldcat/search/v2/bibs-holdings
+
+ When `False` the number of institutions (and not the number of available items) is counted.
 
 ## Changes
 
